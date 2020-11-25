@@ -150,7 +150,10 @@ async function fetchPullRequest(prNumber: number) {
   const respStr = JSON.stringify(resp, null, 2);
 
   // save json file
-  const filepath = `${process.env.OUTPUT_DIR}/${process.env.REPO_NAME}-pr-${prNumber}.json`;
+  const filepath = [
+    `${process.env.OUTPUT_DIR}/`,
+    `${process.env.REPO_NAME}-pr-${String(prNumber).padStart(4, "0")}.json`,
+  ].join("");
   console.log(`Saving ${filepath}...`);
   fs.writeFileSync(filepath, respStr);
 }
