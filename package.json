@@ -8,10 +8,10 @@
     "node-fetch": "^2.6.1"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.163",
+    "@types/lodash": "^4.14.165",
     "@types/node-fetch": "^2.5.7",
-    "prettier": "^2.1.2",
+    "prettier": "^2.2.0",
     "ts-node": "^9.0.0",
-    "typescript": "^4.0.5"
+    "typescript": "^4.1.2"
   }
 }
