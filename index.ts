@@ -18,7 +18,10 @@ async function main() {
     Number(process.env.PR_START_NUMBER),
     Number(process.env.PR_END_NUMBER) + 1
   )) {
-    await fetchPullRequest(prNumber);
+    const isDone = await fetchPullRequest(prNumber);
+    if (isDone) {
+      break;
+    }
   }
   console.log("Done.");
 }
@@ -147,9 +150,16 @@ async function fetchPullRequest(prNumber: number) {
 
   // make graphql query and strigify the response
   const resp = await fetchQuery(query);
-  const respStr = JSON.stringify(resp, null, 2);
+
+  // assume we are done if the pull request is not found
+  const error = resp?.errors?.shift();
+  if (error?.type === "NOT_FOUND") {
+    console.log(`Pull request ${prNumber} not found. Stopping.`);
+    return true;
+  }
 
   // save json file
+  const respStr = JSON.stringify(resp, null, 2);
   const filepath = [
     `${process.env.OUTPUT_DIR}/`,
     `${process.env.REPO_NAME}-pr-${String(prNumber).padStart(4, "0")}.json`,
